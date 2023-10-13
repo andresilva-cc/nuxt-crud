@@ -1,19 +1,27 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, createResolver } from '@nuxt/kit'
+import { Options } from './types/Options'
 
-// Module options TypeScript interface definition
-export interface ModuleOptions {}
-
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<Options>({
   meta: {
-    name: 'my-module',
-    configKey: 'myModule'
+    name: 'nuxt-crud',
+    configKey: 'crud'
   },
-  // Default configuration options of the Nuxt module
-  defaults: {},
   setup (options, nuxt) {
-    const resolver = createResolver(import.meta.url)
+    if (!options.resources) return
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    const { resolve } = createResolver(import.meta.url)
+
+    nuxt.hook('pages:extend', (pages) => {
+      options.resources.map((resource) => {
+        pages.push({
+          name: resource.name,
+          path: `/${resource.name}`,
+          file: resolve('./components/PageTemplate.vue'),
+          meta: {
+            resource
+          }
+        })
+      })
+    })
   }
 })

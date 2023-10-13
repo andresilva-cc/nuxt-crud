@@ -1,5 +1,10 @@
 export default defineNuxtConfig({
   modules: ['../src/module'],
-  myModule: {},
+  crud: {
+    resources: [
+      { name: 'users' },
+      { name: 'products' }
+    ]
+  },
   devtools: { enabled: true }
 })
