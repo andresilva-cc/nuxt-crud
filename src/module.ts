@@ -14,10 +14,19 @@ export default defineNuxtModule<Options>({
     nuxt.hook('pages:extend', (pages) => {
       options.resources.map((resource) => {
         pages.push({
-          name: resource.name,
           path: `/${resource.name}`,
-          file: resolve('./components/PageTemplate.vue'),
+          file: resolve('./components/ListPageTemplate.vue'),
           meta: {
+            baseUrl: options.baseUrl,
+            resource
+          }
+        })
+
+        pages.push({
+          path: `/${resource.name}/create`,
+          file: resolve('./components/CreatePageTemplate.vue'),
+          meta: {
+            baseUrl: options.baseUrl,
             resource
           }
         })

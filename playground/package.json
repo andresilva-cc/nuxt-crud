@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "nuxt": "latest"
+  },
+  "dependencies": {
+    "cache-manager": "^5.2.4"
   }
 }
